@@ -2,7 +2,7 @@
   .search-btn{
     background-color:#fe424d ;
     color: #fff;
-    border-radius: 25px;
+    border-radius: 20px;
     padding: 0 1rem 0 1rem;
   }
   .search-btn:hover{
@@ -18,6 +18,21 @@
     padding: 0.5rem 3rem 0.5rem 3rem;
     font-size: 1rem;
   }
+  
+  
+  .booking-btn{
+    background-color:#fe424d ;
+   
+    border-radius:20px ;
+    margin-left: 25rem;
+ }
+
+  .booking-btn:hover{
+    background-color:#fe424d ;
+    color: #fff;
+   
+  }
+
 </style>
 
 
@@ -35,12 +50,18 @@
           
          </div>
          <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2 search-inp" type="search" placeholder="Search Destination"  >
-            <button class="btn search-btn" type="submit"> <i class="fa-solid fa-magnifying-glass"></i>Search</button>
+          
+
+            <form action="/listings/search" method="GET" class="d-flex" role="search">
+              <input type="text" name="query"   class="form-control me-2 search-inp" type="search"  placeholder="Search listings..." required /  >
+              <button class="btn search-btn" type="submit">  <i class="fa-solid fa-magnifying-glass"></i> Search</button>
+          </form>
 
           </form>
+          <a href="/bookings" class="btn booking-btn">My Bookings</a>
          </div>
+
+       
        
          <div class="navbar-nav ms-auto">
           <a class="nav-link" href="/listings/new">Add your home</a>
@@ -55,3 +76,34 @@
       </div>
     </div>
   </nav>
+
+
+
+<script>
+  async function searchListings() {
+    let query = document.getElementById("searchInput").value;
+
+    let response = await fetch(`/listings/search?query=${query}`);
+    let listings = await response.json();
+
+    let resultsDiv = document.getElementById("searchResults");
+    resultsDiv.innerHTML = "";
+
+    if (listings.length === 0) {
+        resultsDiv.innerHTML = "<p>No results found.</p>";
+        return;
+    }
+
+    listings.forEach(listing => {
+        let div = document.createElement("div");
+        div.innerHTML = `<h3>${listing.title}</h3><p>${listing.description}</p>`;
+        resultsDiv.appendChild(div);
+    });
+}
+
+
+</script>
+
+
+
+

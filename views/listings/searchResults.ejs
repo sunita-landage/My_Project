@@ -1,0 +1,20 @@
+<% layout("/layouts/boilerplate") %>
+
+<h2>Search Results for "<%= query %>"</h2>
+
+<% if (searchResults.length === 0) { %>
+    <p>No listings found.</p>
+<% } else { %>
+    <ul>
+        <% searchResults.forEach(listing => { %>
+            <li>
+                <h3><a href="/listings/<%= listing._id %>" class="mt-3 mb-3" ><%= listing.title %></a></h3>
+                <img src="<%= listing.image.url %>"class="card-img-top show-img" alt="Listing Image">
+                <br>
+                <p><%= listing.description %></p>
+            </li>
+        <% }); %>
+    </ul>
+<% } %>
+
+<a href="/listings">Back to Listings</a>

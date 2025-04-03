@@ -1,0 +1,30 @@
+<% (layout("/layouts/boilerplate")) %>
+<h2>All Bookings</h2>
+<table border="1" class="table table-bordered table-light  table-responsive">
+    <thead>
+        <tr>
+            <th>User</th>
+           
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>Total Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% bookings.forEach(booking => { %>
+            <tr>
+                <td><%= booking.user.username %></td> 
+               <td><%= new Date(booking.checkInDate).toDateString() %></td> 
+                <td><%= new Date(booking.checkOutDate).toDateString() %></td> 
+                <td>$<%= booking.totalPrice %></td> 
+                <td>
+                    <form action="/bookings/<%= booking._id %>/delete" method="POST">
+                        <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this booking?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        <% }); %>
+    </tbody>
+</table>

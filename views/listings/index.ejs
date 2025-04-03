@@ -1,4 +1,9 @@
 <% layout("/layouts/boilerplate") %>
+
+
+
+
+<div id="searchResults"></div>
  <style>
     #filters{
         display: flex;
@@ -32,55 +37,55 @@
         align-items: center;
         justify-content: center;
     }
-
+   
  </style>
 <div id="filters">
-    <div class="filter">
+    <div class="filter"  data-category="Beach">
        <div> <i class="fa-solid fa-fire"></i></div>
        <p> Trending </p>
     </div>
 
-    <div class="filter">
+    <div class="filter" data-category="Rooms">
         <div> <i class="fa-solid fa-bed"></i></div>
         <p> Rooms </p>
      </div>
-     <div class="filter">
+     <div class="filter"  data-category="mountain-city">
         <div> <i class="fa-solid fa-mountain-city"></i></div>
         <p> Iconic cities</p>
      </div>
  
-     <div class="filter">
+     <div class="filter" data-category="mountains">
          <div> <i class="fa-solid fa-mountain"></i></div>
          <p> mountains </p>
       </div>
-      <div class="filter">
+      <div class="filter" data-category="Beach">
         <div><i class="fa-solid fa-umbrella-beach"></i></div>
         <p> Beach </p>
      </div>
  
-     <div class="filter">
+     <div class="filter" data-category="Amazing pools">
          <div><i class="fa-solid fa-person-swimming"></i></div>
          <p> Amazing pools </p>
       </div>
-      <div class="filter">
+      <div class="filter" data-category="Camping">
         <div> <i class="fa-solid fa-campground"></i></div>
         <p>Camping</p>
      </div>
-     <div class="filter">
-       <div><i class="fa-solid fa-cow"></i></i></div>
+     <div class="filter" data-category="farm">
+       <div><i class="fa-solid fa-cow"></i></div>
        <p> farm </p>
     </div>
 
-    <div class="filter">
+    <div class="filter" data-category="Arctic">
         <div><i class="fa-solid fa-snowflake"></i></div>
         <p> Arctic</p>
      </div>
-     <div class="filter">
+     <div class="filter" data-category="Domes">
         <div><i class="fa-solid fa-igloo"></i></i></i></div>
         <p> Domes</p>
      </div>
  
-     <div class="filter">
+     <div class="filter" data-category="Boats">
          <div><i class="fa-solid fa-sailboat"></i></div>
          <p> Boats</p>
       </div>
@@ -92,10 +97,12 @@
           </div>
           
      </div>
+    
 </div>
 
 
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3" id="listings-container">
     <% for(let listing of allListings){ %>
         <a href="/listings/<%= listing._id %>" class="listing-link" >
             <div class="card col listing-card" style="width: 20rem">
@@ -115,6 +122,8 @@
           <% }%>
 </div>
 
+
+
 <script>
     let taxSwitch=document.getElementById("flexSwitchCheckDefault");
     taxSwitch.addEventListener("click",()=>{
@@ -129,7 +138,8 @@
         }
         }
     })
-</script>
+
+    </script>
     
    
 

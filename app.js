@@ -25,6 +25,10 @@ const MongoStore = require('connect-mongo');
 const flash=require("connect-flash");
 const userRouter=require("./routes/user.js");
 const reviews=require("./routes/review.js")
+const cors = require("cors");
+app.use(cors());
+
+
 
 
 
@@ -34,10 +38,30 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+app.use(express.json())
+
+
+const bookingRoutes = require("./routes/bookingRoutes");
 
 
 
-// const MONGO_URL="mongodb://127.0.0.1:27017/HotelDb";
+const paymentRoutes = require("./routes/paymentRoutes.js"); 
+//  app.use("/api/payment", paymentRoutes);
+app.get("/pay", (req, res) => {
+  res.render("payment");  // Agar EJS use kar rahe ho
+});
+
+
+
+
+// app.get("/pay", (req, res) => {
+//   res.render("payment");  
+// });
+// app.use("/api/payments", paymentRoutes);
+
+ const MONGO_URL="mongodb://127.0.0.1:27017/HotelDb";
 const dbUrl=process.env.ATLASDB_URL;
 main()
 .then(()=>{
@@ -47,7 +71,7 @@ main()
     console.log(err);
 });
 async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect(MONGO_URL);
 }
 
 
@@ -56,7 +80,7 @@ const store=MongoStore.create({
   crypto:{
     secret:process.env.SECRETE
   },
-  touchAfter:24*3600,
+  touchAfter:90*3600,
 });
 
 store.on("error",()=>{
@@ -97,6 +121,7 @@ app.use((req,res,next)=>{
 
 
 
+
 app.get("/demouser",async(req,res)=>{
   let fakeuser=new User({
     email:"student@gmail.com",
@@ -112,6 +137,8 @@ app.use("/listings",listings);
 app.use("/listings/:id/reviews",reviews);
 
 app.use("/",userRouter);
+app.use("/", bookingRoutes);
+
 
 
 

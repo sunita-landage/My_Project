@@ -11,8 +11,9 @@
              <p class="card-text"> <%= listing.description %>  </p>
              <p class="card-text">  &#8377; <%= listing.price.toLocaleString("en-IN") %></p>
                
-               <p class="card-text"> <%= listing.location %> </p>
-               <p class="card-text"><%= listing.country %> </p> 
+               <p class="card-text"> Location: <%= listing.location %> </p>
+               <p class="card-text">Country:  <%= listing.country %> </p> 
+               <p class="card-text">category:  <%= listing.category %></p>
                 
                 
         
@@ -94,3 +95,13 @@
    </div>
 </div>
 </div>
+
+
+
+<% if (!listing.booked) { %>
+    <a href="/listings/<%= listing._id %>/book" class="btn">Book Now</a>
+<% } else { %>
+    <button class="btn" disabled>Booked</button>
+<% } %>
+
+<a href="/listings">Back to Listings</a>

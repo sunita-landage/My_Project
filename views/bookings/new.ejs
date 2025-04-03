@@ -1,0 +1,19 @@
+
+<% (layout("/layouts/boilerplate")) %>
+
+
+    <h1>Book <%= listing.title %></h1>
+    <p>Price per night: $<%= listing.price %></p>
+    
+    <form action="/listings/<%= listing._id %>/book" method="POST">
+        <label for="checkInDate">Check-in Date:</label>
+        <input type="date" id="checkInDate" name="checkInDate" class="form-control" required>
+        
+        <label for="checkOutDate">Check-out Date:</label>
+        <input type="date" id="checkOutDate" name="checkOutDate" class="form-control" required>
+        
+        <button type="submit" class="btn btn-success">Confirm Booking</button>
+    </form>
+    
+    <a href="/listings/<%= listing._id %>">Cancel</a>
+

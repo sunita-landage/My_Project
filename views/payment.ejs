@@ -1,0 +1,36 @@
+
+    <h2>Proceed with Payment</h2>
+    <button onclick="makePayment()">Pay Now</button>
+
+    <script>
+        async function makePayment() {
+            try {
+                const response = await fetch("http://localhost:8081/api/payments/create-order", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ amount: 500, currency: "INR" }) // ₹5 (500 paise)
+                });
+
+        
+
+                const data = await response.json();
+
+                
+
+                
+
+                 if (data.success) {
+                    console.log("Order Created:", data.order);
+                    alert("Order Created Successfully! Proceeding to Payment...");
+                } else {
+                    alert("Failed to create order!");
+                }
+            } catch (error) {
+                console.error("Payment Error:", error);
+                alert("Payment request failed!");
+            }
+        }
+    </script>
+

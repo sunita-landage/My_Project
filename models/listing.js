@@ -2,6 +2,7 @@ const mongoose=require("mongoose");
 const Schema=mongoose.Schema;
 const Review=require("./review.js");
 
+
 //define schema
 const listingSchema=new Schema({
     title:{
@@ -25,7 +26,9 @@ const listingSchema=new Schema({
 owner:{
     type:Schema.Types.ObjectId,
     ref:"User"
-}
+}, 
+ booked: { type: Boolean, default: false } ,
+ category: { type: String,default:"Trending"}
 });
 
 //mongoose middleware Delete review after delete listing

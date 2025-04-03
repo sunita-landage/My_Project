@@ -1,18 +1,49 @@
 const Listing=require("../models/listing")
 
-module.exports.index=async(req,res)=>{
+//filter
+module.exports.filter=async (req, res) => {
+        let category = req.query.category;
+    
+        if (!category) {
+            return res.status(400).json({ error: "Category is required" });
+        }
+    
+        try {
+            let listings = await Listing.find({ category: { $regex: new RegExp("^" + category + "$", "i") } });
+            // console.log("Filtered Listings:", listings); // Debugging ke liye
+            res.json(listings);
+        } catch (error) {
+            console.error("Error filtering listings:", error);
+            res.status(500).json({ error: "Server Error" });
+        }
+    }
+
+    //index route {all listings}
+   module.exports.index=async(req,res)=>{
     const  allListings= await Listing.find({});
        res.render("listings//index.ejs",{allListings} );
-   
    }
 
+  // search 
+   module.exports.searchListingsPage = async (req, res) => {
+    try {
+        let { query } = req.query;
+        let searchResults = await Listing.find({
+            title: { $regex: query, $options: "i" } // Case-insensitive search
+        });
 
-
+        res.render("listings/searchResults.ejs", { searchResults, query });
+    } catch (error) {
+        console.error("Error searching listings:", error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+// edit form
 module.exports.renderNewForm=(req,res)=>{
     res.render("listings/new.ejs");
 }
 
-
+// individual listing
 module.exports.showListing= async(req,res)=>{
    
     let {id}=req.params;
@@ -27,7 +58,7 @@ module.exports.showListing= async(req,res)=>{
     req.flash("error","Listing you want to see not exist");
     res.redirect("/listings");
  }
- console.log(listing);
+//  console.log(listing);
  res.render("listings/show.ejs",{listing})
  }
 
@@ -35,12 +66,13 @@ module.exports.showListing= async(req,res)=>{
  module.exports.createListing=async(req,res,next)=>{
    let url=req.file.path;
    let filename=req.file.filename;
-  //  console.log(url," .. ",filename)
+   let category = req.query.category;
     const newListing= new Listing(req.body.listing);
     
    newListing.owner=req.user._id;
    newListing.image={url,filename};
    await newListing.save();
+   
     req.flash("success","New Listing Created");
      res.redirect("/listings");
     
